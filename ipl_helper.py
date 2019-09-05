@@ -13,8 +13,6 @@ def get_team_season_dict(matches):
     seasons = get_seasons_dict(matches)
     total_teams = {}
     for match in matches:
-        print(match)
-        break
         if match['team1'] not in total_teams:
             total_teams[match['team1']] = seasons.copy()
     # print(total_teams)
