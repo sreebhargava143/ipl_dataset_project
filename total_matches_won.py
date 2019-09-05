@@ -1,15 +1,6 @@
 from matplotlib import pyplot as plotter
-from csv import DictReader as reader
 from ipl_helper import *
 import random
-
-def extract_matches(csv_file):
-    matches_data = []
-    with open(csv_file) as matches_csv:
-        matches = reader(matches_csv)
-        for match in matches:
-            matches_data.append(match)
-    return matches_data
 
 def plot_matches_won(matches_won):
     bottom = [0]*10

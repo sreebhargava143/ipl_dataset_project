@@ -1,4 +1,4 @@
-
+from csv import DictReader as reader
 
 def get_seasons_dict(matches):
     total_seasons = set()
@@ -31,5 +31,13 @@ def sorted_dict(dictionary,reverse = False):
     for key in sorted(dictionary,reverse = reverse) :
         sorted_dict[key] = dictionary[key]
     return sorted_dict
+
+def extract_matches(csv_file):
+    matches_data = []
+    with open(csv_file) as matches_csv:
+        matches = reader(matches_csv)
+        for match in matches:
+            matches_data.append(match)
+    return matches_data
 
 
