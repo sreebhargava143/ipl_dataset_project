@@ -22,7 +22,7 @@ def plot_matches_won(matches_won):
     plotter.show()
 
 def find_matches_won(csv_file):
-    matches = extract_matches(csv_file)
+    matches = extract_list(csv_file)
     matches_won = get_team_season_dict(matches)
     for match in matches:
         if  match['winner'] == '':
