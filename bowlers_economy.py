@@ -3,9 +3,10 @@ from matplotlib import pyplot as plotter
 
 def plot_bowler_economies(bowler_economy_leader_board):
     plotter.figure(figsize = (20,20))
-    # plotter.yticks(fontsize='small', verticalalignment='center')
     plotter.barh(list(bowler_economy_leader_board.values())[-30:],list(bowler_economy_leader_board.keys())[-30:])
-    plotter.tight_layout()
+    plotter.title('TOP 30 ECONOMICAL BOWLERS')
+    plotter.yticks( verticalalignment='center')
+    plotter.xlabel('ECONOMY')
     plotter.show()
 
 def calculate_economies(bowler_runs_balls):

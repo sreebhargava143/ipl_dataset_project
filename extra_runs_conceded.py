@@ -1,8 +1,9 @@
 from ipl_helper import *
 from matplotlib import pyplot as plotter
 def plot_extras_conceded(year,extras_conceded):
-    plotter.barh(list(extras_conceded.keys()),list(extras_conceded.values()))
+    plotter.figure(figsize=(13,10))
     plotter.style.use("fivethirtyeight")
+    plotter.barh(list(extras_conceded.keys()),list(extras_conceded.values()))
     plotter.xlabel("Extra Runs Conceded")
     plotter.title('For the year '+ str(year)+ ' plot the extra runs conceded per team.')
     plotter.tight_layout()

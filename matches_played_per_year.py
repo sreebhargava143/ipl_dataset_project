@@ -6,12 +6,9 @@ from ipl_helper import *
 def plot_matches_played(year_match_map):
     plotter.style.use("fivethirtyeight")
     plotter.bar(list(year_match_map.keys()),list(year_match_map.values()))
-    plotter.grid()
     plotter.xlabel('Years')
     plotter.ylabel('Matches Played')
     plotter.title('IPL Matches Played Per Year')
-    plotter.tight_layout()
-    plotter.legend()
     plotter.show()
 
 def find_matches_per_year(csvfile):

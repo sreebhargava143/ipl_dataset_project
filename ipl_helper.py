@@ -1,23 +1,29 @@
 from csv import DictReader as reader
 import collections
+import random
 
-def get_seasons_dict(matches):
-    total_seasons = set()
-    seasons = {}
-    for match in matches:
-        total_seasons.add(match['season'])
-    for season in sorted(total_seasons):
-        seasons[season] = 0
-    return seasons
+def get_dict(csv_1, field, value):
+    nested_keys = set()
+    nested_dict = {}
+    with open(csv_1) as csv_file:
+        data_file = reader(csv_file)
+        for row in data_file:
+            nested_keys.add(row[field])
+    for key in sorted(nested_keys):
+        nested_dict[key] = value
+    return nested_dict
 
-def get_team_season_dict(matches):
-    seasons = get_seasons_dict(matches)
-    total_teams = {}
-    for match in matches:
-        if match['team1'] not in total_teams:
-            total_teams[match['team1']] = seasons.copy()
-    # print(total_teams)
-    return total_teams
+def get_plotable_matches_dict(csv_1, field_1, csv_2, field_2, value):
+    nested_dict = get_dict(csv_2, field_2, value)
+    plotable_dict = {}
+    with open(csv_1) as csv_file:
+        data_file = reader(csv_file)
+        for row in data_file:
+            if row[field_1] not in plotable_dict:
+                plotable_dict[row[field_1]] = nested_dict.copy()
+    
+    # print(plotable_dict)
+    return plotable_dict
 
 
 def get_id_set(year,matches):
@@ -38,12 +44,12 @@ def sorted_dict(dictionary,reverse = False, by = 'key'):
     return sorted_dict
 
 def extract_list(csv_file):
-    matches_data = []
-    with open(csv_file) as matches_csv:
-        matches = reader(matches_csv)
-        for match in matches:
-            matches_data.append(match)
-    return matches_data
+    csv_data = []
+    with open(csv_file) as opened_file:
+        data_file = reader(opened_file)
+        for data in data_file:
+            csv_data.append(data)
+    return csv_data
 
 def extract_id_set(year, csv_file):
     id_set = set()
@@ -54,6 +60,14 @@ def extract_id_set(year, csv_file):
                 id_set.add(match['id'])
     return sorted(id_set)
 
+def get_unique_colors(number_of_colors):
+    color_set = set()
+    color = '#012345'
+    for number in range(number_of_colors):
+        while color in color_set:
+            color = "#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
+        color_set.add(color)
+    return sorted(color_set)
 
 def extract_deliveries(csv_file, id_set):
     deliveries_dict = {}
