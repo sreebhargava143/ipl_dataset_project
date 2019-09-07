@@ -13,13 +13,16 @@ def plot_matches_played(year_match_map):
 
 def find_matches_per_year(csvfile):
     yearMatchMap = {}
+    
     with open(csvfile) as matches_csv:
         matches = reader(matches_csv)
         for match in matches:
-            if match['season'] not in yearMatchMap:
-                yearMatchMap[match['season']] = 1
+            season = match['season']
+            if season not in yearMatchMap:
+                yearMatchMap[season] = 1
             else:
-                yearMatchMap[match['season']] +=1
+                yearMatchMap[season] +=1
+                
     plot_matches_played(sorted_dict(yearMatchMap))
 
 find_matches_per_year('matches.csv')
