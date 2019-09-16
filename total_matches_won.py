@@ -1,6 +1,7 @@
 from matplotlib import pyplot as plotter
 from csv import DictReader as reader
-from ipl_helper import *
+from ipl_helper import sorted_dict as sorted_dict
+from ipl_helper import get_unique_colors as get_unique_colors
 
 
 def plot_matches_won(matches_won):
@@ -25,25 +26,37 @@ def plot_matches_won(matches_won):
 def find_matches_won(matches_csv):
     matches_won = {}
     seasons_set = set()
-    with open(matches_csv) as matches_file:
-        matches = reader(matches_file)
-        for match in matches:
-            team1 = match['team1']
-            team2 = match['team2']
-            season = match['season']
-            winner = match['winner']
-            seasons_set.add(season)
-            if team1 not in matches_won:
-                matches_won[team1] = {}
-            if season not in matches_won[team1]:
-                matches_won[team1][season]=0
-            if team2 not in matches_won:
-                matches_won[team2] = {}
-            if season not in matches_won[team2]:
-                matches_won[team2][season]=0
-            if  winner == '':
-                continue
-            matches_won[winner][season] += 1
+    try:
+        if not matches_csv.endswith(".csv"):
+            raise TypeError
+        with open(matches_csv) as matches_file:
+            matches = reader(matches_file)
+            for match in matches:
+                team1 = match['team1']
+                team2 = match['team2']
+                season = match['season']
+                winner = match['winner']
+                seasons_set.add(season)
+                if team1 not in matches_won:
+                    matches_won[team1] = {}
+                if season not in matches_won[team1]:
+                    matches_won[team1][season]=0
+                if team2 not in matches_won:
+                    matches_won[team2] = {}
+                if season not in matches_won[team2]:
+                    matches_won[team2][season]=0
+                if  winner == '':
+                    continue
+                matches_won[winner][season] += 1
+    except FileNotFoundError as e:
+        print('invalid file name try with another file')
+        raise
+    except KeyError:
+        print("*"*10,"""REQUIRED : MATCHES.CSV file""", "*"*10)
+        raise
+    except TypeError:
+        print("*"*10,"Required : CSV file as input", "*"*10)
+        raise
             
     for team in matches_won:
         for season in seasons_set:
@@ -52,6 +65,8 @@ def find_matches_won(matches_csv):
             if season not in matches_won[team]:
                 matches_won[team][season]=0
         matches_won[team] = sorted_dict(matches_won[team])
-    plot_matches_won(matches_won)
+    return matches_won
 
-find_matches_won('matches.csv')
+
+if __name__ == "__main__":
+    plot_matches_won(find_matches_won('matches.csv'))
